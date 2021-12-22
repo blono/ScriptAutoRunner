@@ -19,7 +19,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
       try {
         let data = await getStorage(storageKey);
-  
+
         if (data) {
           data = data[storageKey];
           // data.tabId = sender.tab.id;

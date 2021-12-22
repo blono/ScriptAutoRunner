@@ -12,7 +12,7 @@ chrome.runtime.sendMessage({
       code: script.code
     });*/
     var tag = document.createElement('script');
-    
+
     if (script.type === 'snippet') {
       tag.innerHTML = script.code;
     }
@@ -26,7 +26,7 @@ chrome.runtime.sendMessage({
     if (host === '' || host === 'any') {
       return true;
     }
-    
+
     var hostname = window.location.href;
     var hosts, match;
     if (host.indexOf(',') !== -1) {
@@ -40,12 +40,12 @@ chrome.runtime.sendMessage({
     }
     return match;
   }
-  
+
   function isExcludeHost(host) {
     if (host === '') {
       return false;
     }
-    
+
     var hostname = window.location.href;
     var hosts, match;
     if (host.indexOf(',') !== -1) {
@@ -53,23 +53,22 @@ chrome.runtime.sendMessage({
       match = hosts.some((_host) => {
         return hostname.indexOf(_host.trim()) !== -1;
       });
-      
     }
     else {
       match = hostname.indexOf(host) !== -1;
     }
-    
+
     return match;
   }
 
   var data = response.data;
-  
+
   if (data.options && data.options.exclude) {
     if (isExcludeHost(data.options.exclude)) {
       return false;
     }
   }
-  
+
   if (data.power) {
     data.scripts.forEach(script => {
       try {
@@ -82,5 +81,5 @@ chrome.runtime.sendMessage({
         console.error(e);
       }
     });
-  }  
+  }
 });
