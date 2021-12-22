@@ -1,13 +1,13 @@
 chrome.tabs.getSelected(null, function(tab) {
   var currentURL = tab.url;
   var url = new URL(tab.url);
-  var hostname = url.hostname;
+  var hostname = currentURL; // url.hostname;
 
   (function() {  
     var DEFAULT_OPTIONS = {
       exclude: ''
     };
-    var storageKey = 'SAR';
+    const storageKey = 'SAR';
     
     var vm = new Vue({
       el: '#app',
@@ -19,19 +19,21 @@ chrome.tabs.getSelected(null, function(tab) {
         }
       },
       ready() {
-        var data = JSON.parse(localStorage.getItem(storageKey));
-        if (data) {
-          this.$set('power', data.power);
-          this.$set('scripts', data.scripts);
-          if (data.options) {
-            this.$set('options', data.options);
+        chrome.storage.local.get([storageKey], result => {
+          var data = result[storageKey];
+          if (data) {
+            this.$set('power', data.power);
+            this.$set('scripts', data.scripts);
+            if (data.options) {
+              this.$set('options', data.options);
+            }
           }
-        }
-        else {
-          this.$set('power', true);
-          this.$set('scripts', []);
-          this.$set('options', DEFAULT_OPTIONS);
-        }
+          else {
+            this.$set('power', true);
+            this.$set('scripts', []);
+            this.$set('options', DEFAULT_OPTIONS);
+          }
+        });
       },
       methods: {
         togglePower() {
@@ -44,7 +46,7 @@ chrome.tabs.getSelected(null, function(tab) {
           this.save();
         },
         _setStorage(data) {
-          window.localStorage.setItem(storageKey, JSON.stringify(data));
+          chrome.storage.local.set({[storageKey]: data});
         },
         save() {
           this._setStorage(this.$data);

@@ -13,7 +13,7 @@
     exclude: ''
   };
   
-  var storageKey = 'SAR';
+  const storageKey = 'SAR';
   
   var vm = new Vue({
     el: '#app',
@@ -46,7 +46,7 @@
       },
       removeScript(index) {
         if (window.confirm('Are you sure you want to delete?')) {
-          this.scripts.$remove(index);
+          this.scripts.$remove(this.scripts.at(index));
         }
       },
       moveUp(index) {
@@ -84,37 +84,54 @@
         this.save();
       },
       _setStorage(data) {
-        window.localStorage.setItem(storageKey, JSON.stringify(data));
+        chrome.storage.local.set({[storageKey]: data});
       },
       _loadScripts() {
-        var data =  JSON.parse(window.localStorage.getItem(storageKey));
-        this.$set('power', data.power);
-        this.$set('scripts', data.scripts);
-        if (!data.options) {
-          this.$set('options', DEFAULT_OPTIONS);
-        }
-        else {
-          this.$set('options', data.options);
-        }
+        chrome.storage.local.get([storageKey], result => {
+          var data = result[storageKey];
+
+          if (data == null) {
+            this.$set('power', false);
+            this.$set('options', DEFAULT_OPTIONS);
+            this.$set('scripts', []);
+          } else {
+            this.$set('power', data.power);
+
+            if (!data.options) {
+              this.$set('options', DEFAULT_OPTIONS);
+            }
+            else {
+              this.$set('options', data.options);
+            }
+
+            if (data.scripts == null || data.scripts.length <= 0) {
+              this.$set('scripts', []);
+            } else {
+              this.$set('scripts', data.scripts);
+            }
+          }
+        });
       },
       _init() {
-        var data = window.localStorage.getItem('SRA');
-        var newData = window.localStorage.getItem(storageKey);
-        
-        if (!newData) {
-          if (data) {
-            this._setStorage(JSON.parse(data));
-            window.localStorage.removeItem('SRA');
+        chrome.storage.local.get(['SRA', storageKey], result => {
+          var data = result.SRA;
+          var newData = result[storageKey];
+          
+          if (!newData) {
+            if (data) {
+              this._setStorage(data);
+              chrome.storage.local.remove(['SRA']);
+            }
+            else {
+              this._setStorage({power: true, scripts: [], options: DEFAULT_OPTIONS});
+            }
           }
           else {
-            this._setStorage({power: true, scripts: [], options: DEFAULT_OPTIONS});
+            if (data) {
+              chrome.storage.local.remove(['SRA']);
+            }
           }
-        }
-        else {
-          if (data) {
-            window.localStorage.removeItem('SRA');
-          }
-        }
+        });
       },
       toggleSetting() {
         if (_.includes(this.$els.setting.classList, 'show')) {
@@ -136,5 +153,4 @@
       });
     }
   });
-  
 })();

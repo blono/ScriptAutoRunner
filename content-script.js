@@ -1,6 +1,16 @@
-chrome.runtime.sendMessage({method: "SARgetLocalStorage"}, (response) => {
+chrome.runtime.sendMessage({
+  method: "GetStorage"
+}, response => {
+  if (response == null || response.data == null) {
+    return false;
+  }
 
-  function runScript(script) {
+  function runScript(tabId, script) {
+    /*chrome.runtime.sendMessage({
+      method: "RunScript",
+      tabId: tabId,
+      code: script.code
+    });*/
     var tag = document.createElement('script');
     
     if (script.type === 'snippet') {
@@ -9,7 +19,7 @@ chrome.runtime.sendMessage({method: "SARgetLocalStorage"}, (response) => {
     if (script.type === 'external') {
       tag.src = script.src;
     }
-    document.body.appendChild(tag);
+    document.head.prepend(tag);
   }
 
   function isMatch(host) {
@@ -17,7 +27,7 @@ chrome.runtime.sendMessage({method: "SARgetLocalStorage"}, (response) => {
       return true;
     }
     
-    var hostname = window.location.hostname;
+    var hostname = window.location.href;
     var hosts, match;
     if (host.indexOf(',') !== -1) {
       hosts = host.split(',');
@@ -36,7 +46,7 @@ chrome.runtime.sendMessage({method: "SARgetLocalStorage"}, (response) => {
       return false;
     }
     
-    var hostname = window.location.hostname;
+    var hostname = window.location.href;
     var hosts, match;
     if (host.indexOf(',') !== -1) {
       hosts = host.split(',');
@@ -51,7 +61,7 @@ chrome.runtime.sendMessage({method: "SARgetLocalStorage"}, (response) => {
     
     return match;
   }
-  
+
   var data = response.data;
   
   if (data.options && data.options.exclude) {
@@ -61,11 +71,15 @@ chrome.runtime.sendMessage({method: "SARgetLocalStorage"}, (response) => {
   }
   
   if (data.power) {
-    data.scripts.forEach((script) => {
-      if (script.enable) {
-        if(isMatch(script.host)) {
-          runScript(script);
+    data.scripts.forEach(script => {
+      try {
+        if (script.enable) {
+          if(isMatch(script.host)) {
+            runScript(data.tabId, script);
+          }
         }
+      } catch (e) {
+        console.error(e);
       }
     });
   }  

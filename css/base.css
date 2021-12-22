@@ -2,8 +2,10 @@
   display: none;
 }
 html, body {
-  background-color: #454851;
-  color: #F3D32F;
+  filter: contrast(95%) saturate(95%) sepia(15%) !important;
+  -webkit-font-smoothing: antialiased !important;
+  background-color: #333333;
+  color: #D4771A;
   margin: 0;
   padding: 0;
   height: 100%;

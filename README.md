@@ -1,3 +1,12 @@
+# Changes from the original ScriptAutoRunner
+
+1. localStorage -> chrome.storage.local
+1. run at document_idle -> run at document_start
+1. Change the Power decision from hostname to URL
+1. Change all_frames from false to true
+1. Change vue.min.js to CSP version
+1. Change color scheme
+
 # ScriptAutoRunner
 
 Injects to any Script into a Website. It can be autorun as well.

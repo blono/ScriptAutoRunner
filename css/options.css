@@ -21,7 +21,7 @@
     right: 0;
     margin: auto;
     display: none;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(34, 34, 34, 0.5);
     z-index: 3;
     display: none;
   }
@@ -35,9 +35,9 @@
     right: 0;
   }
   .sra-setting__body {
-    color: #454851;
+    color: #333333;
     border: 1px solid #656565;
-    background-color: #F3D32F;
+    background-color: #D4771A;
     text-align: left;
     font-size: 14px;
     width: 500px;
@@ -45,14 +45,14 @@
   }
   .sra-setting__body textarea {
     background-color: transparent;
-    color: #454851;
+    color: #333333;
     margin-top: 10px;
     display: block;
     width: 100%;
     box-sizing: border-box;
     font-size: 14px;
     line-height: 1.2;
-    font-family: Consolas, 'Courier New', Courier, Monaco, monospace;
+    font-family: 'Courier New', Courier, Consolas, Monaco, monospace;
     min-height: 40px;
   }
   .show {
@@ -73,8 +73,8 @@
   .sra-setting__header {
     display: flex;
     align-items: center;
-    background-color: #454851;
-    color: #F3D32F;
+    background-color: #333333;
+    color: #D4771A;
     padding: 5px 10px;
   }
   .sra-setting__header span:nth-of-type(1) {
@@ -96,14 +96,14 @@
   bottom: 0;
   left:0;
   text-align: center;
-  color: #454851;
-  background-color: #F3D32F;
+  color: #333333;
+  background-color: #D4771A;
   z-index: 1;
   cursor: pointer;
 }
 .sra-power--off {
   background-color: #656565;
-  color: #F3D32F;
+  color: #D4771A;
 }
   .sra-power .icon-flash {
     position: absolute;
@@ -127,7 +127,7 @@
 .sra-power--off + .sra-main .sra-script:before,
 .sra-power--off + .sra-main .sra-script__plug,
 .sra-power--off + .sra-main .sra-script__plug:before {
-  color: #F3D32F;
+  color: #D4771A;
   background-color: #656565 !important;
 }
 .sra-power--off + .sra-main .sra-script__plug:after {
@@ -138,7 +138,7 @@
   position: relative;
   margin-top: 10px;
   padding: 1px;
-  background-color: #F3D32F;
+  background-color: #D4771A;
   display: inline-block;
   font-size: 15px;
   z-index: 2;
@@ -175,16 +175,16 @@
     top: 0;
     bottom: 0;
     right: 226px;
-    color: #F3D32F;
+    color: #D4771A;
     text-align: center;
     font-size: 30px;
   }
   .sra-btn {
     -webkit-appearance: none;
-    color: #fff;
+    color: #ddd;
     border: none;
-    background-color: #454851;
-    color: #fff;
+    background-color: #333333;
+    color: #ddd;
     width: 40px;
     line-height: 40px;
     text-align: center;
@@ -200,8 +200,8 @@
   }
   .src-btn--plus {
     float: left;
-    background-color: #F3D32F;
-    color: #454851;
+    background-color: #D4771A;
+    color: #333333;
     border: none;
     font-size: 20px;
   }
@@ -222,8 +222,8 @@
   background-color: #656565;
 }
 .sra-script--enable {
-  color: #454851;
-  background-color: #F3D32F;
+  color: #333333;
+  background-color: #D4771A;
 }
   .sra-script:before {
     content: '';
@@ -250,8 +250,8 @@
     cursor: pointer;
   }
   .sra-script--enable .sra-script__plug {
-    background-color: #F3D32F;
-    color: #F3D32F;
+    background-color: #D4771A;
+    color: #D4771A;
     width: 64px;
   }
   .sra-script__plug:before {
@@ -273,10 +273,10 @@
     -webkit-font-smoothing: antialiased;
     line-height: 35px;
     text-align: center;
-    color: #F3D32F;
+    color: #D4771A;
   }
   .sra-script--enable .sra-script__plug:before {
-    color: #454851;
+    color: #333333;
   }
   .sra-script__plug:after {
     content: '';
@@ -309,11 +309,13 @@
   }
   
   .sra-script__name {
+    font-weight: bold;
     border: none;
     border-radius: 1px;
     padding: 0px;
-    background-color: transparent;
-    font-size: 16px;
+    color: #DDDDDD;
+    background-color: #444444;
+    font-size: 18px;
     color: inherit;
     width: 100%;
     box-sizing: border-box;
@@ -332,12 +334,12 @@
     text-align: center;
     display: inline-block;
     border-radius: 50%;
-    background-color: #454851;
+    background-color: #333333;
     margin-bottom: 10px;
   }
   .sra-script__check:checked + label {
-    background-color: #E40F0F;
-    color: #fff;
+    background-color: #B73E3E;
+    color: #ddd;
   }
   
   .sra-script__radio {
@@ -358,11 +360,12 @@
   }
   .sra-script__external input {
     padding: 5px;
-    font-size: 14px;
+    font-size: 16px;
     width: 100%;
     box-sizing: border-box;
     border-radius: 1px;
-    background-color: transparent;
+    color: #DDDDDD;
+    background-color: #444444;
     color: inherit;
     border: 1px solid currentColor;
     line-height: 20px;
@@ -374,13 +377,14 @@
     box-sizing: border-box;
     min-height: 100px;
     border-radius: 1px;
-    background-color: transparent;
+    color: #DDDDDD;
+    background-color: #444444;
     color: inherit;
     border: 1px solid currentColor;
     display: block;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 1.2;
-    font-family: Consolas, 'Courier New', Courier, Monaco, monospace;
+    font-family: 'Courier New', Courier, Consolas, Monaco, monospace;
   }
   
   .sra-script__btn {
@@ -407,12 +411,13 @@
   text-align: right;
 }
 .sra-script__host {
-  background-color: transparent;
+  color: #DDDDDD;
+  background-color: #444444;
   color: inherit;
   box-sizing: border-box;
   border: none;
   padding: 5px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 20px;
 }
 
