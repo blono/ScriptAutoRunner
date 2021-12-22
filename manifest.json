@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "ScriptAutoRunner",
   "description": "Injects to any Script into a Website. It can be autorun as well.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "icons": {
     "128": "img/icon.png",
     "16": "img/icon.png",
@@ -26,5 +26,5 @@
     "persistent": false
   }],
   "options_page": "options.html",
-  "permissions": ["tabs", "storage", "unlimitedStorage"]
+  "permissions": ["storage", "unlimitedStorage"]
 }

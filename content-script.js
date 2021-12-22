@@ -75,7 +75,7 @@ chrome.runtime.sendMessage({
       try {
         if (script.enable) {
           if(isMatch(script.host)) {
-            runScript(data.tabId, script);
+            runScript(/*data.tabId*/null, script);
           }
         }
       } catch (e) {

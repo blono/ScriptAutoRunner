@@ -12,8 +12,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           scripts: [],
           options: {
             exclude: ''
-          },
-          tabId: sender.tab.id
+          }/*,
+          tabId: sender.tab.id*/
         }
       };
 
@@ -22,7 +22,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   
         if (data) {
           data = data[storageKey];
-          data.tabId = sender.tab.id;
+          // data.tabId = sender.tab.id;
 
           return { data };
         }
@@ -43,10 +43,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     return true;
   } else if (message.method == 'RunScript') {
-    chrome.scripting.executeScript({
+    /*chrome.scripting.executeScript({
       target: { tabId: message.tabId, allFrames: true },
       func: Function(message.code)
-    });
+    });*/
 
     return true;
   }
