@@ -7,6 +7,8 @@
 1. Change vue.min.js to CSP version
 1. Change color scheme
 
+I will never use this Chrome extension to collect any personal information, now or in the future.
+
 # ScriptAutoRunner
 
 Injects to any Script into a Website. It can be autorun as well.
