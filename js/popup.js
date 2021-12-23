@@ -35,7 +35,7 @@ chrome.tabs.getSelected(null, function(tab) {
           }
 
           chrome.storage.sync.get([storageScriptKey + '_LEN'], len => {
-            if (len != null && len[storageScriptKey] != null) {
+            if (len != null && len[storageScriptKey + '_LEN'] != null) {
               for (let i = 0; i < len[storageScriptKey + '_LEN']; ++i) {
                 chrome.storage.sync.get([storageScriptKey + '_' + i + '_0', storageScriptKey + '_' + i + '_1', storageScriptKey + '_' + i + '_2'], script => {
                   const script1 = script[storageScriptKey + '_' + i + '_0'];
@@ -56,7 +56,7 @@ chrome.tabs.getSelected(null, function(tab) {
                   if (stringifid != null && stringifid.length != null && stringifid.length > 0) {
                     const obj = zipson.parse(stringifid);
 
-                    this.$get('scripts')[i] = obj;
+                    this.scripts.$set(i, obj);
                   }
                 });
               }
@@ -77,21 +77,24 @@ chrome.tabs.getSelected(null, function(tab) {
         _setStorage(data) {
           chrome.storage.local.set({[storageKey]: data});
 
-          if (data == null || data.scripts == null || data.scripts.length == null || data.scripts.length <= 0) {
-            chrome.storage.sync.clear();
+          if (data == null || data.scripts == null || data.scripts.length == null) {
           } else {
             chrome.storage.sync.set({[storageScriptKey + '_LEN']: data.scripts.length});
   
             data.scripts.forEach((script, index) => {
-              const stringifid = zipson.stringify(script);
-              const third1 = 1 * Math.floor(stringifid.length / 3);
-              const third2 = 2 * Math.floor(stringifid.length / 3);
+              try {
+                const stringifid = zipson.stringify(script);
+                const third1 = 1 * Math.floor(stringifid.length / 3);
+                const third2 = 2 * Math.floor(stringifid.length / 3);
   
-              chrome.storage.sync.set({
-                [storageScriptKey + '_' + index + '_0']: LZString.compressToUTF16(stringifid.substring(0, third1)),
-                [storageScriptKey + '_' + index + '_1']: LZString.compressToUTF16(stringifid.substring(third1, third2)),
-                [storageScriptKey + '_' + index + '_2']: LZString.compressToUTF16(stringifid.substring(third2))
-              });
+                chrome.storage.sync.set({
+                  [storageScriptKey + '_' + index + '_0']: LZString.compressToUTF16(stringifid.substring(0, third1)),
+                  [storageScriptKey + '_' + index + '_1']: LZString.compressToUTF16(stringifid.substring(third1, third2)),
+                  [storageScriptKey + '_' + index + '_2']: LZString.compressToUTF16(stringifid.substring(third2))
+                });
+              } catch (e) {
+                console.error(e);
+              }
             });
           }
         },
