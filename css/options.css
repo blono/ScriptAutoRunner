@@ -35,9 +35,9 @@
     right: 0;
   }
   .sra-setting__body {
-    color: #333333;
-    border: 1px solid #656565;
-    background-color: #D4771A;
+    color: #403D3A;
+    border: 1px solid #6A6864;
+    background-color: #C08444;
     text-align: left;
     font-size: 14px;
     width: 500px;
@@ -45,7 +45,7 @@
   }
   .sra-setting__body textarea {
     background-color: transparent;
-    color: #333333;
+    color: #403D3A;
     margin-top: 10px;
     display: block;
     width: 100%;
@@ -73,8 +73,8 @@
   .sra-setting__header {
     display: flex;
     align-items: center;
-    background-color: #333333;
-    color: #D4771A;
+    background-color: #403D3A;
+    color: #C08444;
     padding: 5px 10px;
   }
   .sra-setting__header span:nth-of-type(1) {
@@ -96,14 +96,14 @@
   bottom: 0;
   left:0;
   text-align: center;
-  color: #333333;
-  background-color: #D4771A;
+  color: #403D3A;
+  background-color: #C08444;
   z-index: 1;
   cursor: pointer;
 }
 .sra-power--off {
-  background-color: #656565;
-  color: #D4771A;
+  background-color: #6A6864;
+  color: #C08444;
 }
   .sra-power .icon-flash {
     position: absolute;
@@ -127,18 +127,18 @@
 .sra-power--off + .sra-main .sra-script:before,
 .sra-power--off + .sra-main .sra-script__plug,
 .sra-power--off + .sra-main .sra-script__plug:before {
-  color: #D4771A;
-  background-color: #656565 !important;
+  color: #C08444;
+  background-color: #6A6864 !important;
 }
 .sra-power--off + .sra-main .sra-script__plug:after {
-  border-color: #656565 !important;
+  border-color: #6A6864 !important;
 }
 
 .sra-btns {
   position: relative;
   margin-top: 10px;
   padding: 1px;
-  background-color: #D4771A;
+  background-color: #C08444;
   display: inline-block;
   font-size: 15px;
   z-index: 2;
@@ -175,16 +175,16 @@
     top: 0;
     bottom: 0;
     right: 226px;
-    color: #D4771A;
+    color: #C08444;
     text-align: center;
     font-size: 30px;
   }
   .sra-btn {
     -webkit-appearance: none;
-    color: #ddd;
+    color: #E9E4DB;
     border: none;
-    background-color: #333333;
-    color: #ddd;
+    background-color: #403D3A;
+    color: #E9E4DB;
     width: 40px;
     line-height: 40px;
     text-align: center;
@@ -200,8 +200,8 @@
   }
   .src-btn--plus {
     float: left;
-    background-color: #D4771A;
-    color: #333333;
+    background-color: #C08444;
+    color: #403D3A;
     border: none;
     font-size: 20px;
   }
@@ -219,11 +219,11 @@
   padding: 5px 10px;
   margin-bottom: 10px;
   margin-top: 10px;
-  background-color: #656565;
+  background-color: #6A6864;
 }
 .sra-script--enable {
-  color: #333333;
-  background-color: #D4771A;
+  color: #403D3A;
+  background-color: #C08444;
 }
   .sra-script:before {
     content: '';
@@ -244,14 +244,14 @@
     right: 100%;
     width: 30px;
     height: 5px;
-    background-color: #656565;
-    color: #656565;
+    background-color: #6A6864;
+    color: #6A6864;
     transition: width 200ms ease;
     cursor: pointer;
   }
   .sra-script--enable .sra-script__plug {
-    background-color: #D4771A;
-    color: #D4771A;
+    background-color: #C08444;
+    color: #C08444;
     width: 64px;
   }
   .sra-script__plug:before {
@@ -273,10 +273,10 @@
     -webkit-font-smoothing: antialiased;
     line-height: 35px;
     text-align: center;
-    color: #D4771A;
+    color: #C08444;
   }
   .sra-script--enable .sra-script__plug:before {
-    color: #333333;
+    color: #403D3A;
   }
   .sra-script__plug:after {
     content: '';
@@ -297,8 +297,8 @@
   
   .sra-script__power {
     position: absolute;
-    border-top: 5px solid #656565;
-    border-bottom: 5px solid #656565;
+    border-top: 5px solid #6A6864;
+    border-bottom: 5px solid #6A6864;
     height: 15px;
     width: 10px;
     margin: auto;
@@ -313,8 +313,8 @@
     border: none;
     border-radius: 1px;
     padding: 0px;
-    color: #DDDDDD;
-    background-color: #444444;
+    color: #E9E4DB;
+    background-color: #484643;
     font-size: 18px;
     color: inherit;
     width: 100%;
@@ -334,12 +334,12 @@
     text-align: center;
     display: inline-block;
     border-radius: 50%;
-    background-color: #333333;
+    background-color: #403D3A;
     margin-bottom: 10px;
   }
   .sra-script__check:checked + label {
     background-color: #B73E3E;
-    color: #ddd;
+    color: #E9E4DB;
   }
   
   .sra-script__radio {
@@ -364,8 +364,8 @@
     width: 100%;
     box-sizing: border-box;
     border-radius: 1px;
-    color: #DDDDDD;
-    background-color: #444444;
+    color: #E9E4DB;
+    background-color: #484643;
     color: inherit;
     border: 1px solid currentColor;
     line-height: 20px;
@@ -377,8 +377,8 @@
     box-sizing: border-box;
     min-height: 100px;
     border-radius: 1px;
-    color: #DDDDDD;
-    background-color: #444444;
+    color: #E9E4DB;
+    background-color: #484643;
     color: inherit;
     border: 1px solid currentColor;
     display: block;
@@ -411,8 +411,8 @@
   text-align: right;
 }
 .sra-script__host {
-  color: #DDDDDD;
-  background-color: #444444;
+  color: #E9E4DB;
+  background-color: #484643;
   color: inherit;
   box-sizing: border-box;
   border: none;

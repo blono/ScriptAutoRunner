@@ -1,6 +1,6 @@
 # Changes from the original ScriptAutoRunner
 
-1. localStorage -> chrome.storage.local
+1. localStorage -> chrome.storage.local and chrome.storage.sync
 1. run at document_idle -> run at document_start
 1. Change the Power decision from hostname to URL
 1. Change all_frames from false to true

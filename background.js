@@ -2,8 +2,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   const storageKey = 'SAR';
 
   if (message.method == 'GetStorage') {
-    const getStorage = (key = null) => new Promise(resolve => {
+    const getLocalStorage = (key = null) => new Promise(resolve => {
       chrome.storage.local.get([key], resolve);
+    });
+    const getSyncStorage = (key = null) => new Promise(resolve => {
+      chrome.storage.sync.get([key], resolve);
     });
     const getResponse = async () => {
       const defaultResponse = {
@@ -18,7 +21,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
       };
 
       try {
-        let data = await getStorage(storageKey);
+        let data = await getLocalStorage(storageKey);
 
         if (data) {
           data = data[storageKey];

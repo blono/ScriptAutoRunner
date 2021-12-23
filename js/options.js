@@ -14,7 +14,8 @@
   };
   
   const storageKey = 'SAR';
-  
+  const storageScriptKey = 'SAR_SCRIPT';
+
   var vm = new Vue({
     el: '#app',
     data: {
@@ -85,6 +86,24 @@
       },
       _setStorage(data) {
         chrome.storage.local.set({[storageKey]: data});
+
+        if (data == null || data.scripts == null || data.scripts.length == null || data.scripts.length <= 0) {
+          chrome.storage.sync.clear();
+        } else {
+          chrome.storage.sync.set({[storageScriptKey + '_LEN']: data.scripts.length});
+
+          data.scripts.forEach((script, index) => {
+            const stringifid = zipson.stringify(script);
+            const third1 = 1 * Math.floor(stringifid.length / 3);
+            const third2 = 2 * Math.floor(stringifid.length / 3);
+
+            chrome.storage.sync.set({
+              [storageScriptKey + '_' + index + '_0']: LZString.compressToUTF16(stringifid.substring(0, third1)),
+              [storageScriptKey + '_' + index + '_1']: LZString.compressToUTF16(stringifid.substring(third1, third2)),
+              [storageScriptKey + '_' + index + '_2']: LZString.compressToUTF16(stringifid.substring(third2))
+            });
+          });
+        }
       },
       _loadScripts() {
         chrome.storage.local.get([storageKey], result => {
@@ -110,6 +129,35 @@
               this.$set('scripts', data.scripts);
             }
           }
+
+          chrome.storage.sync.get([storageScriptKey + '_LEN'], len => {
+            if (len != null && len[storageScriptKey] != null) {
+              for (let i = 0; i < len[storageScriptKey + '_LEN']; ++i) {
+                chrome.storage.sync.get([storageScriptKey + '_' + i + '_0', storageScriptKey + '_' + i + '_1', storageScriptKey + '_' + i + '_2'], script => {
+                  const script1 = script[storageScriptKey + '_' + i + '_0'];
+                  const script2 = script[storageScriptKey + '_' + i + '_1'];
+                  const script3 = script[storageScriptKey + '_' + i + '_2'];
+                  let stringifid = '';
+
+                  if (script1 != null && script1.length != null && script1.length > 0) {
+                    stringifid += LZString.decompressFromUTF16(script1);
+                  }
+                  if (script2 != null && script2.length != null && script2.length > 0) {
+                    stringifid += LZString.decompressFromUTF16(script2);
+                  }
+                  if (script3 != null && script3.length != null && script3.length > 0) {
+                    stringifid += LZString.decompressFromUTF16(script3);
+                  }
+
+                  if (stringifid != null && stringifid.length != null && stringifid.length > 0) {
+                    const obj = zipson.parse(stringifid);
+
+                    this.$get('scripts')[i] = obj;
+                  }
+                });
+              }
+            }
+          });
         });
       },
       _init() {
@@ -123,6 +171,7 @@
               chrome.storage.local.remove(['SRA']);
             }
             else {
+              chrome.storage.sync.clear();
               this._setStorage({power: true, scripts: [], options: DEFAULT_OPTIONS});
             }
           }

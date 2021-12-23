@@ -1,12 +1,11 @@
 html, body {
-  filter: contrast(95%) saturate(95%) sepia(15%) !important;
   -webkit-font-smoothing: antialiased !important;
   margin: 0;
   padding: 0;
   border: none;
 }
-/*color: #333333;
-background-color: #D4771A;*/
+/*color: #403D3A;
+background-color: #C08444;*/
 html, body {
   height: auto;
 }
@@ -20,8 +19,8 @@ html, body {
 
 .sra-header {
   padding: 5px;
-  background-color: #D4771A;
-  color: #333333;
+  background-color: #C08444;
+  color: #403D3A;
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -32,8 +31,8 @@ html, body {
     width: 20px;
     line-height: 20px;
     text-align: center;
-    background-color: #333333;
-    color: #D4771A;
+    background-color: #403D3A;
+    color: #C08444;
     padding: 3px;
     border-right: 1px solid #2E2F31;
     border-bottom: 1px solid #2E2F31;
@@ -56,12 +55,12 @@ html, body {
   }
   
   .sra-power--off .sra-header {
-    color: #D4771A;
-    background-color: #333333;
+    color: #C08444;
+    background-color: #403D3A;
   }
   .sra-power--off .sra-header span:nth-of-type(1) {
-    background-color: #D4771A;
-    color: #333333;
+    background-color: #C08444;
+    color: #403D3A;
   }
 
 .sra-footer {
@@ -83,7 +82,7 @@ html, body {
 }
   .sra-script {
     list-style: none;
-    color: #DDDDDD;
+    color: #E9E4DB;
     border-bottom: 1px solid currentColor;
     margin: 10px 0 20px;
   }
@@ -91,7 +90,7 @@ html, body {
     color: inherit;
   }
   .sra-power--off .sra-script--enable {
-    color: #DDDDDD;
+    color: #E9E4DB;
   }
   .sra-script__main {
     display: flex;
@@ -111,7 +110,7 @@ html, body {
     cursor: pointer;
   }
   .sra-script__main span:nth-of-type(3):hover {
-    color: #D4771A;
+    color: #C08444;
   }
   
   .sra-script--enable .sra-script__main span:nth-of-type(3):hover {

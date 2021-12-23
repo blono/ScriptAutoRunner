@@ -2,10 +2,9 @@
   display: none;
 }
 html, body {
-  filter: contrast(95%) saturate(95%) sepia(15%) !important;
   -webkit-font-smoothing: antialiased !important;
-  background-color: #333333;
-  color: #D4771A;
+  background-color: #403D3A;
+  color: #C08444;
   margin: 0;
   padding: 0;
   height: 100%;
