@@ -93,15 +93,17 @@
 
           data.scripts.forEach((script, index) => {
             try {
-              const stringifid = zipson.stringify(script);
-              const third1 = 1 * Math.floor(stringifid.length / 3);
-              const third2 = 2 * Math.floor(stringifid.length / 3);
+              setTimeout(() => {
+                const stringifid = zipson.stringify(script);
+                const third1 = 1 * Math.floor(stringifid.length / 3);
+                const third2 = 2 * Math.floor(stringifid.length / 3);
 
-              chrome.storage.sync.set({
-                [storageScriptKey + '_' + index + '_0']: LZString.compressToUTF16(stringifid.substring(0, third1)),
-                [storageScriptKey + '_' + index + '_1']: LZString.compressToUTF16(stringifid.substring(third1, third2)),
-                [storageScriptKey + '_' + index + '_2']: LZString.compressToUTF16(stringifid.substring(third2))
-              });
+                chrome.storage.sync.set({
+                  [storageScriptKey + '_' + index + '_0']: LZString.compressToUTF16(stringifid.substring(0, third1)),
+                  [storageScriptKey + '_' + index + '_1']: LZString.compressToUTF16(stringifid.substring(third1, third2)),
+                  [storageScriptKey + '_' + index + '_2']: LZString.compressToUTF16(stringifid.substring(third2))
+                });
+              }, 510 * (index + 1));
             } catch (e) {
               console.error(e);
             }
