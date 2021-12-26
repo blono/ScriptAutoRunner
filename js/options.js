@@ -206,7 +206,9 @@
     },
     ready() {
       this.$watch('scripts', function(val, oldVal) {
-        this._setStorage(this.$data);
+        if (JSON.stringify(val) !== JSON.stringify(oldVal)) {
+          this._setStorage(this.$data);
+        }
       });
     }
   });
