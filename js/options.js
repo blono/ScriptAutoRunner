@@ -79,31 +79,43 @@
         }.bind(this), 500);
       },
       onKeyup() {
-        this.save();
+        // this.save();
       },
       onBlur() {
-        this.save();
+        // this.save();
       },
       _setStorage(data) {
         chrome.storage.local.set({[storageKey]: data});
 
         if (data == null || data.scripts == null || data.scripts.length == null) {
         } else {
-          chrome.storage.sync.set({[storageScriptKey + '_LEN']: data.scripts.length});
+          try {
+            chrome.storage.sync.set({[storageScriptKey + '_LEN']: data.scripts.length}, () => {
+              console.log(`Saved sync script length ${data.scripts.length}`);
+            });
+          } catch (e) {
+            console.error(e);
+          }
 
           data.scripts.forEach((script, index) => {
             try {
               setTimeout(() => {
-                const stringifid = zipson.stringify(script);
-                const third1 = 1 * Math.floor(stringifid.length / 3);
-                const third2 = 2 * Math.floor(stringifid.length / 3);
+                try {
+                  const stringifid = zipson.stringify(script);
+                  const third1 = 1 * Math.floor(stringifid.length / 3);
+                  const third2 = 2 * Math.floor(stringifid.length / 3);
 
-                chrome.storage.sync.set({
-                  [storageScriptKey + '_' + index + '_0']: LZString.compressToUTF16(stringifid.substring(0, third1)),
-                  [storageScriptKey + '_' + index + '_1']: LZString.compressToUTF16(stringifid.substring(third1, third2)),
-                  [storageScriptKey + '_' + index + '_2']: LZString.compressToUTF16(stringifid.substring(third2))
-                });
-              }, 510 * (index + 1));
+                  chrome.storage.sync.set({
+                    [storageScriptKey + '_' + index + '_0']: LZString.compressToUTF16(stringifid.substring(0, third1)),
+                    [storageScriptKey + '_' + index + '_1']: LZString.compressToUTF16(stringifid.substring(third1, third2)),
+                    [storageScriptKey + '_' + index + '_2']: LZString.compressToUTF16(stringifid.substring(third2))
+                  }, () => {
+                    console.log(`Saved sync script Index: ${index}, Name: ${script.name}, Host: ${script.host}`);
+                  });
+                } catch (e) {
+                  console.error(e);
+                }
+              }, 600 * (index + 1));
             } catch (e) {
               console.error(e);
             }
@@ -127,19 +139,18 @@
             else {
               this.$set('options', data.options);
             }
-
-            if (data.scripts == null || data.scripts.length <= 0) {
-              this.$set('scripts', []);
-            } else {
-              this.$set('scripts', data.scripts);
-            }
           }
 
           chrome.storage.sync.get([storageScriptKey + '_LEN'], len => {
-            if (len != null && len[storageScriptKey + '_LEN'] != null) {
+            if (len != null && len[storageScriptKey + '_LEN'] != null && len[storageScriptKey + '_LEN'] > 0) {
+              console.log(`Loaded sync script length ${len[storageScriptKey + '_LEN']}`);
+              this.scripts.splice(len[storageScriptKey + '_LEN']);
+
               for (let i = 0; i < len[storageScriptKey + '_LEN']; ++i) {
                 try {
                   chrome.storage.sync.get([storageScriptKey + '_' + i + '_0', storageScriptKey + '_' + i + '_1', storageScriptKey + '_' + i + '_2'], script => {
+                    console.log(`Loaded sync script Index: ${i}`);
+
                     const script1 = script[storageScriptKey + '_' + i + '_0'];
                     const script2 = script[storageScriptKey + '_' + i + '_1'];
                     const script3 = script[storageScriptKey + '_' + i + '_2'];
@@ -159,28 +170,35 @@
                       const obj = zipson.parse(stringifid);
 
                       this.scripts.$set(i, obj);
+                      console.log(`Loaded sync script Index: ${i}, Name: ${obj.name}, Host: ${obj.host}`);
                     }
                   });
                 } catch (e) {
                   console.error(e);
                 }
               }
+            } else {
+              if (data.scripts == null || data.scripts.length <= 0) {
+                this.$set('scripts', []);
+              } else {
+                this.$set('scripts', data.scripts);
+              }
             }
           });
         });
       },
       _init() {
-        chrome.storage.local.get(['SRA', storageKey], result => {
+        /*chrome.storage.local.get(['SRA', storageKey], result => {
           var data = result.SRA;
           var newData = result[storageKey];
-          
+
           if (!newData) {
             if (data) {
-              this._setStorage(data);
+              // this._setStorage(data);
               chrome.storage.local.remove(['SRA']);
             }
             else {
-              this._setStorage({power: true, scripts: [], options: DEFAULT_OPTIONS});
+              // this._setStorage({power: true, scripts: [], options: DEFAULT_OPTIONS});
             }
           }
           else {
@@ -188,7 +206,7 @@
               chrome.storage.local.remove(['SRA']);
             }
           }
-        });
+        });*/
       },
       toggleSetting() {
         if (_.includes(this.$els.setting.classList, 'show')) {

@@ -23,21 +23,24 @@ chrome.tabs.getSelected(null, function(tab) {
           var data = result[storageKey];
           if (data) {
             this.$set('power', data.power);
-            this.$set('scripts', data.scripts);
             if (data.options) {
               this.$set('options', data.options);
             }
           }
           else {
             this.$set('power', true);
-            this.$set('scripts', []);
             this.$set('options', DEFAULT_OPTIONS);
           }
 
           chrome.storage.sync.get([storageScriptKey + '_LEN'], len => {
-            if (len != null && len[storageScriptKey + '_LEN'] != null) {
+            if (len != null && len[storageScriptKey + '_LEN'] != null && len[storageScriptKey + '_LEN'] > 0) {
+              console.log(`Loaded sync script length ${len[storageScriptKey + '_LEN']}`);
+              this.scripts.splice(len[storageScriptKey + '_LEN']);
+
               for (let i = 0; i < len[storageScriptKey + '_LEN']; ++i) {
                 chrome.storage.sync.get([storageScriptKey + '_' + i + '_0', storageScriptKey + '_' + i + '_1', storageScriptKey + '_' + i + '_2'], script => {
+                  console.log(`Loaded sync script Index: ${i}`);
+
                   const script1 = script[storageScriptKey + '_' + i + '_0'];
                   const script2 = script[storageScriptKey + '_' + i + '_1'];
                   const script3 = script[storageScriptKey + '_' + i + '_2'];
@@ -57,8 +60,16 @@ chrome.tabs.getSelected(null, function(tab) {
                     const obj = zipson.parse(stringifid);
 
                     this.scripts.$set(i, obj);
+                    console.log(`Loaded sync script Index: ${i}, Name: ${obj.name}, Host: ${obj.host}`);
                   }
                 });
+              }
+            } else {
+              if (data) {
+                this.$set('scripts', data.scripts);
+              }
+              else {
+                this.$set('scripts', []);
               }
             }
           });
@@ -79,21 +90,33 @@ chrome.tabs.getSelected(null, function(tab) {
 
           if (data == null || data.scripts == null || data.scripts.length == null) {
           } else {
-            chrome.storage.sync.set({[storageScriptKey + '_LEN']: data.scripts.length});
+            try {
+              chrome.storage.sync.set({[storageScriptKey + '_LEN']: data.scripts.length}, () => {
+                console.log(`Saved sync script length ${data.scripts.length}`);
+              });
+            } catch (e) {
+              console.error(e);
+            }
   
             data.scripts.forEach((script, index) => {
               try {
                 setTimeout(() => {
-                  const stringifid = zipson.stringify(script);
-                  const third1 = 1 * Math.floor(stringifid.length / 3);
-                  const third2 = 2 * Math.floor(stringifid.length / 3);
+                  try {
+                    const stringifid = zipson.stringify(script);
+                    const third1 = 1 * Math.floor(stringifid.length / 3);
+                    const third2 = 2 * Math.floor(stringifid.length / 3);
 
-                  chrome.storage.sync.set({
-                    [storageScriptKey + '_' + index + '_0']: LZString.compressToUTF16(stringifid.substring(0, third1)),
-                    [storageScriptKey + '_' + index + '_1']: LZString.compressToUTF16(stringifid.substring(third1, third2)),
-                    [storageScriptKey + '_' + index + '_2']: LZString.compressToUTF16(stringifid.substring(third2))
-                  });
-                }, 510 * (index + 1));
+                    chrome.storage.sync.set({
+                      [storageScriptKey + '_' + index + '_0']: LZString.compressToUTF16(stringifid.substring(0, third1)),
+                      [storageScriptKey + '_' + index + '_1']: LZString.compressToUTF16(stringifid.substring(third1, third2)),
+                      [storageScriptKey + '_' + index + '_2']: LZString.compressToUTF16(stringifid.substring(third2))
+                    }, () => {
+                      console.log(`Saved sync script Index: ${index}, Name: ${script.name}, Host: ${script.host}`);
+                    });
+                  } catch (e) {
+                    console.error(e);
+                  }
+                }, 600 * (index + 1));
               } catch (e) {
                 console.error(e);
               }
